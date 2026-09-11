@@ -13,6 +13,7 @@ Get a free key at https://aistudio.google.com/apikey
 
 import gc
 import os
+import chromadb
 import shutil
 import tempfile
 import time
@@ -70,10 +71,11 @@ def get_vectorstore(db_path: str, _embedding_model):
     """
     if not os.path.isdir(db_path) or not os.listdir(db_path):
         return None
+    persistent_client = chromadb.PersistentClient(path=db_path)
     return Chroma(
-        persist_directory=db_path,
+        client=persistent_client,
         embedding_function=_embedding_model,
-    )
+        )
 
 
 def clear_vectorstore_cache():
@@ -196,11 +198,12 @@ def ingest_pdfs(uploaded_files, embedding_model, chunk_size=1000, chunk_overlap=
         if os.path.isdir(CHROMA_DIR):
             remove_chroma_dir(CHROMA_DIR)
 
+    persistent_client = chromadb.PersistentClient(path=CHROMA_DIR)
     vectorstore = Chroma.from_documents(
         documents=chunks,
         embedding=embedding_model,
-        persist_directory=CHROMA_DIR,
-    )
+        client=persistent_client,
+        )
 
     # The database has been persisted. Do not keep the ingestion handle alive:
     # on Windows that handle can keep data_level0.bin locked.

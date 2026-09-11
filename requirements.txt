@@ -1,5 +1,5 @@
 # Core RAG dependencies
-chromadb==0.5.23
+chromadb>=0.5.15,<0.6.0
 
 # PDF processing
 pypdf==4.3.1
@@ -9,7 +9,7 @@ langchain==0.2.14
 langchain-core
 langchain-community==0.2.12
 langchain-text-splitters
-langchain-chroma==0.2.5
+langchain-chroma==0.1.4
 langchain-huggingface
 langchain-google-genai
 
