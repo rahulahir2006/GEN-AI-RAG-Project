@@ -10,6 +10,19 @@ Run with:
 Requires a .env file (or Streamlit secrets) with GOOGLE_API_KEY set.
 Get a free key at https://aistudio.google.com/apikey
 """
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+
+try:
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
+
+
 
 import gc
 import os

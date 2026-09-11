@@ -30,3 +30,6 @@ streamlit==1.38.0
 numpy==1.26.4
 pandas==2.2.2
 tqdm==4.66.5
+
+
+pysqlite3-binary
