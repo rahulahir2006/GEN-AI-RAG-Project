@@ -36,7 +36,7 @@ warnings.filterwarnings("ignore", message=".*Automatic function calling.*")
 
 load_dotenv()
 
-CHROMA_DIR = "chroma_db"
+CHROMA_DIR = os.path.join(tempfile.gettempdir(), "chroma_db")
 EMBED_MODEL_NAME = "BAAI/bge-small-en-v1.5"
 
 # --------------------------------------------------------------------------
