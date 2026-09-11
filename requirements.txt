@@ -1,0 +1,30 @@
+# Core RAG dependencies
+chromadb>=0.5.15,<0.6.0
+mistralai==1.0.3
+
+# PDF processing
+pypdf==4.3.1
+pdfplumber==0.11.4
+
+# Text splitting / LangChain (optional but commonly used for chunking)
+langchain==0.2.14
+langchain-core
+langchain-community==0.2.12
+langchain-mistralai==0.1.13
+langchain-chroma==0.1.4
+
+# Embeddings / tokenization helpers
+tiktoken>=0.8.0
+
+# Environment variable management
+python-dotenv==1.0.1
+
+# Web app / API (optional, pick based on your use case)
+streamlit==1.38.0
+fastapi==0.112.2
+uvicorn==0.30.6
+
+# General utilities
+numpy==1.26.4
+pandas==2.2.2
+tqdm==4.66.5
