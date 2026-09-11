@@ -82,17 +82,13 @@ def get_vectorstore(db_path: str, _embedding_model):
     Streamlit rerun/query.  This is important on Windows because Chroma
     can keep data_level0.bin open.
     """
-    if rebuild:
-        clear_vectorstore_cache()
-        if os.path.isdir(CHROMA_DIR):
-            remove_chroma_dir(CHROMA_DIR)
-os.makedirs(CHROMA_DIR, exist_ok=True)
-persistent_client = chromadb.PersistentClient(path=CHROMA_DIR)
-vectorstore = Chroma.from_documents(
-    documents=chunks,
-    embedding=embedding_model,
-    client=persistent_client,
-)
+    if not os.path.isdir(db_path) or not os.listdir(db_path):
+        return None
+    persistent_client = chromadb.PersistentClient(path=db_path)
+    return Chroma(
+        client=persistent_client,
+        embedding_function=_embedding_model,
+    )
 
 
 def clear_vectorstore_cache():
@@ -208,13 +204,10 @@ def ingest_pdfs(uploaded_files, embedding_model, chunk_size=1000, chunk_overlap=
     chunks = splitter.split_documents(all_docs)
 
     if rebuild:
-        # IMPORTANT: release the Chroma instance created during a previous
-        # Streamlit run before Windows tries to delete data_level0.bin.
         clear_vectorstore_cache()
-
         if os.path.isdir(CHROMA_DIR):
             remove_chroma_dir(CHROMA_DIR)
-
+    os.makedirs(CHROMA_DIR, exist_ok=True)          # ← add this
     persistent_client = chromadb.PersistentClient(path=CHROMA_DIR)
     vectorstore = Chroma.from_documents(
         documents=chunks,
