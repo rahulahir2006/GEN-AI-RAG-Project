@@ -339,7 +339,7 @@ if query:
                 context = "\n\n".join(doc.page_content for doc in docs)
                 final_prompt = PROMPT.invoke({"context": context, "question": query})
                 response = invoke_llm_with_backoff(llm, final_prompt)
-                answer_text = response.text
+                answer_text = response.content
         except RateLimitedError as e:
             st.error(f"⏳ {e}")
             answer_text = (
